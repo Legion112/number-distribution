@@ -22,11 +22,12 @@ def drawDistribution(map, min, max):
 
     # plt.axis([min, max, 0, M])
 
+
     x = [*map.keys()]
     y = [*map.values()]
     print(x)
     print(y)
-    plt.plot(x, y, 'ro')
+    plt.plot(x, y)
     plt.show()
 
 
@@ -63,17 +64,16 @@ def analyze_trimpazation(n, m, q0):
 
     step = 1
     every = min
-    for key in distribution_of_x:
-        if key == every:
-            print(f'{key}:\t {distribution_of_x[key]}')
-            every += step
+    printDistribution(distribution_of_x, every, step)
 
     # calculating sum:
     res = 0
     i = 0
+    x = []
     for v in range(min, max):
         if v in distribution_of_x:
             for _ in range(distribution_of_x[v]):
+                x.append(v)
                 res += (i + 1) * v
                 i += 1
 
@@ -85,8 +85,15 @@ def analyze_trimpazation(n, m, q0):
     return res
 
 
+def printDistribution(distribution_of_x, every, step):
+    for key in distribution_of_x:
+        if key == every:
+            print(f'{key}:\t {distribution_of_x[key]}')
+            every += step
+
+
 if __name__ == '__main__':
-    N, M, q0 = [10000000, 5, 1]
+    N, M, q0 = [100000, 100, 9]
     t = time()
     print(analyze_trimpazation(N, M, q0))
     if estimate_execution_time:
