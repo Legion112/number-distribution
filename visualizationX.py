@@ -16,11 +16,6 @@ estimate_execution_time = False
 quantum_a = 7 ** 5
 quantum_m = 2 ** 31 - 1
 
-def drawX(x, y, min, max):
-    plt.xlabel('i')
-    plt.ylabel('x[i]')
-    plt.plot(x, y, 'ro')
-    plt.show()
 
 
 def analyze_trimpazation(n, m, q0):
@@ -41,8 +36,13 @@ def analyze_trimpazation(n, m, q0):
     # generating x data:
 
     distribution_of_x = dict.fromkeys((range(min, max)), 0)
+    plt.figure(figsize=(40, 2))
+    plt.xlabel('i')
+    plt.ylabel('x[i]')
+    x = []
+    y = []
 
-
+    i = 0
     for i in range(n):
         # performanceStart('x_i = q % m - m_div2')
         x_i = q % m - m_div2
@@ -53,7 +53,11 @@ def analyze_trimpazation(n, m, q0):
         # performanceStart('insert hashmap')
         distribution_of_x[x_i] += 1
         # performanceEnd('insert hashmap')
+        x.append(i)
+        y.append(x_i)
+        i+=1
 
+    plt.plot(x, y, label='unsorted')
     step = 1
     every = min
     printDistribution(distribution_of_x, every, step)
@@ -71,9 +75,9 @@ def analyze_trimpazation(n, m, q0):
                 res += (i + 1) * v
                 i += 1
 
-
-    drawX(x, y, min, max)
-
+    plt.plot(x, y, label='sorted')
+    plt.legend()
+    plt.show()
 
 
     return res
@@ -87,7 +91,7 @@ def printDistribution(distribution_of_x, every, step):
 
 
 if __name__ == '__main__':
-    N, M, q0 = [10000, 20, 1]
+    N, M, q0 = [500, 2, 7]
     t = time()
     print(analyze_trimpazation(N, M, q0))
     if estimate_execution_time:
